@@ -12,7 +12,7 @@
     {id:7,nombre:"palitos salados",descripcion:"palitos de harina de trigo sabor panceta",precio:1700,marca:"pep",categoria:"snaks",img:"cocacola"},
     {id:8,nombre:"takis",descripcion:"chips de maiz picantes",precio:3000,marca:"barcel",categoria:"snaks",img:"cocacola"},
     {id:9,nombre:"papas picantes",descripcion:"chips de papa pcantes",precio:3000,marca:"barcel",categoria:"snaks",img:"cocacola"},
-]&& JSON.parse(localStorage.getItem("productos"))
+] && JSON.parse(localStorage.getItem("productos"))
 
 class producto{
     constructor(id,nombre,descripcion,precio,marca,categoria,img){
@@ -30,48 +30,27 @@ class producto{
 
 //funciones
 function armarCards(){
-    
-
-    
-
-
     contenidoHtml = ""
     productos.forEach(producto =>{
 
         contenidoHtml +=`
-                <div class="card col-md-3">
+                <div class="card col-md-3" draggable="true">
                 <div class="img-container ">
-                    <img src="./img/${producto.img}" alt="${producto.nombre}" class="card-img-top">
+                    <img draggable="true" src="./img/${producto.img}" alt="${producto.nombre}" class="card-img-top">
                 </div>
                 <div class="producto-info card-body">
                     <h3 class="precio-producto card-title">${producto.nombre}</h3>
                     <h4 class="precio-producto card-title">$${producto.precio}</h4>
                     <p class="descripcion-producto card-text">${producto.descripcion}</p>
-                    <button class="botonBorrar" id=${producto.id} >eliminar</button>
+                   
                 </div> 
                 </div>`
                   ;
 
-                 document.querySelector(".contenido").innerHTML = contenidoHtml
+                 document.querySelector(".contenido").innerHTML = contenidoHtml 
                 
     })
-    
-   
-   
 }
-let botonBorrar = document.querySelectorAll(".botonBorrar")
-for (const i in botonBorrar) {
-    console.log(botonBorrar[i]);
-}
-function borrarElemento(){
-    console.log(botonBorrar)
-    
-}
- 
-
-
-
-
 
 function fomrOn() {
 let forms = document.querySelectorAll("input")
@@ -91,17 +70,15 @@ function fomrOf() {
     
     for (const i in forms) {
        forms[i].classList.remove("inputsOn")
-    }
-
-    
+    }    
 }
-
-
 armarCards()
 
 const saveArray = () =>{
     localStorage.setItem("productos",JSON.stringify(productos))
 }
+
+
 function agregarProducto(){
     let id = productos.slice(-1)[0]+1
     let nombre = document.querySelector(".nombreProducto").value
@@ -110,21 +87,16 @@ function agregarProducto(){
     let precio = document.querySelector(".precioProducto").value
     let categoria = document.querySelector(".categoriaProducto").value
     let img = document.querySelector(".imagenProducto").value
+
     
 
     productoNuevo = new producto(id,nombre,descripcion,precio,marca,categoria,img)
-    productos.push(productoNuevo)
-    armarCards()
     
+    productos.push(productoNuevo)
+    saveArray()
+    armarCards()
     fomrOf()
 }
-
-
-
-
-
-
-
 
 
 
@@ -136,5 +108,20 @@ botonForm.addEventListener("dblclick",fomrOf)
 let botonEnviar = document.querySelector(".botonenviar")
 botonEnviar.addEventListener("click",agregarProducto)
 
+let botonBorrar = document.querySelector(".botonBorrar")
+let productoEliminado = document.querySelector(".ingreso")
 
+ function borrarProducto(){
+    let i =0;
+    for (i  in productos) {
+       if (productoEliminado.value == productos[i].nombre) {
+        delete productos[i]
+       }
+       else{
+        continue}
+    }
+    armarCards()
+ }
+
+botonBorrar.addEventListener("click",borrarProducto)
 borrarElemento()
