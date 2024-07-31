@@ -12,7 +12,7 @@
     {id:7,nombre:"palitos salados",descripcion:"palitos de harina de trigo sabor panceta",precio:1700,marca:"pep",categoria:"snaks",img:"cocacola"},
     {id:8,nombre:"takis",descripcion:"chips de maiz picantes",precio:3000,marca:"barcel",categoria:"snaks",img:"cocacola"},
     {id:9,nombre:"papas picantes",descripcion:"chips de papa pcantes",precio:3000,marca:"barcel",categoria:"snaks",img:"cocacola"},
-]
+]&& JSON.parse(localStorage.getItem("productos"))
 
 class producto{
     constructor(id,nombre,descripcion,precio,marca,categoria,img){
@@ -95,7 +95,13 @@ function fomrOf() {
 
     
 }
+
+
 armarCards()
+
+const saveArray = () =>{
+    localStorage.setItem("productos",JSON.stringify(productos))
+}
 function agregarProducto(){
     let id = productos.slice(-1)[0]+1
     let nombre = document.querySelector(".nombreProducto").value
